@@ -108,7 +108,7 @@ export const SignupPage = () => {
                         {/* KMT Trade Logo */}
                         <div className="mb-6 flex justify-center">
                             <img
-                                src="/kmt-logo.png"
+                                src={`${import.meta.env.BASE_URL}kmt-logo.png`}
                                 alt="KMT Trade"
                                 className="h-40 w-auto object-contain"
                             />

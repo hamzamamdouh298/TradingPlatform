@@ -93,7 +93,7 @@ export const Navbar = () => {
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-3 group">
                     <img
-                        src="/kmt-logo.png"
+                        src={`${import.meta.env.BASE_URL}kmt-logo.png`}
                         alt="KMT Trade"
                         className="h-10 w-auto object-contain group-hover:scale-110 transition-transform"
                     />
@@ -121,7 +121,7 @@ export const Navbar = () => {
                             <div className="flex flex-col items-center gap-3 text-center">
                                 <h3 className="font-bold text-primary">{t('joinTelegram')}</h3>
                                 <div className="bg-white p-2 rounded-lg">
-                                    <img src="/telegram-qr.png" alt="Telegram QR" className="w-40 h-40 object-contain" />
+                                    <img src={`${import.meta.env.BASE_URL}telegram-qr.png`} alt="Telegram QR" className="w-40 h-40 object-contain" />
                                 </div>
                                 <p className="text-xs opacity-70">{t('scanQrCode')}</p>
                                 <a
