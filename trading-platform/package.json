@@ -1,6 +1,7 @@
 {
   "name": "trading-platform",
   "private": true,
+  "homepage": "https://hamzamamdouh298.github.io/TradingPlatform",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
