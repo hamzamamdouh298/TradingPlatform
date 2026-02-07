@@ -57,6 +57,8 @@ export const CoursesSettingsPage = () => {
                                 <div className="flex items-center gap-4 mt-2 text-xs font-medium opacity-70">
                                     <span>{course.lessons?.length || 0} {t('lessons')}</span>
                                     <span>•</span>
+                                    <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">{course.level || 'Beginner'}</span>
+                                    <span>•</span>
                                     <span className={course.isVisible ? 'text-green-500' : 'text-yellow-500'}>
                                         {course.isVisible ? t('published') : t('hidden')}
                                     </span>

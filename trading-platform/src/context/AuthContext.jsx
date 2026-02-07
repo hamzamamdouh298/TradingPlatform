@@ -1,4 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { COURSES } from '../data/courses';
+
+const LEVELS = ['Beginner', 'Intermediate', 'Professional'];
 
 const AuthContext = createContext();
 
@@ -20,13 +23,17 @@ const INITIAL_USERS = [
         email: ADMIN_CREDENTIALS.email,
         role: 'admin',
         isPremium: true,
+        currentLevel: 'Professional',
+        completedVideos: [],
     },
     {
         id: 'u2',
         name: 'Student User',
         email: USER_CREDENTIALS.email,
         role: 'user',
-        isPremium: false, // Default to false
+        isPremium: false,
+        currentLevel: 'Beginner',
+        completedVideos: [],
     }
 ];
 
@@ -67,7 +74,6 @@ export const AuthProvider = ({ children }) => {
 
                 // Check User
                 if (email === USER_CREDENTIALS.email && password === USER_CREDENTIALS.password) {
-                    // Find the FRESH user data from allUsers to get current premium status
                     const targetUser = allUsers.find(u => u.email === email);
                     if (targetUser) {
                         setUser(targetUser);
@@ -78,7 +84,7 @@ export const AuthProvider = ({ children }) => {
                 }
 
                 reject('Invalid email or password');
-            }, 1000); // Fake delay
+            }, 1000);
         });
     };
 
@@ -90,28 +96,27 @@ export const AuthProvider = ({ children }) => {
     const signup = (name, email, password) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                // Check if email already exists
                 const existingUser = allUsers.find(u => u.email === email);
                 if (existingUser) {
                     reject('Email already registered');
                     return;
                 }
 
-                // Create new user
                 const newUser = {
                     id: `u${Date.now()}`,
                     name,
                     email,
-                    password, // In production, this should be hashed
+                    password,
                     role: 'user',
                     isPremium: false,
+                    currentLevel: 'Beginner',
+                    completedVideos: [],
                 };
 
                 const updatedUsers = [...allUsers, newUser];
                 setAllUsers(updatedUsers);
                 localStorage.setItem('trading_platform_users', JSON.stringify(updatedUsers));
 
-                // Auto login after signup
                 setUser(newUser);
                 localStorage.setItem('trading_platform_session', JSON.stringify(newUser));
                 resolve(newUser);
@@ -126,7 +131,6 @@ export const AuthProvider = ({ children }) => {
         setAllUsers(updatedUsers);
         localStorage.setItem('trading_platform_users', JSON.stringify(updatedUsers));
 
-        // If updating current user/admin
         if (user && user.id === userId) {
             const updatedUser = { ...user, isPremium };
             setUser(updatedUser);
@@ -141,12 +145,58 @@ export const AuthProvider = ({ children }) => {
         setAllUsers(updatedUsers);
         localStorage.setItem('trading_platform_users', JSON.stringify(updatedUsers));
 
-        // If updating current user
         if (user && user.id === userId) {
             const updatedUser = { ...user, ...updates };
             setUser(updatedUser);
             localStorage.setItem('trading_platform_session', JSON.stringify(updatedUser));
         }
+    };
+
+    const markVideoAsCompleted = (userId, videoId) => {
+        const targetUser = allUsers.find(u => u.id === userId);
+        if (!targetUser) return;
+
+        if (targetUser.completedVideos?.includes(videoId)) return;
+
+        const newCompletedVideos = [...(targetUser.completedVideos || []), videoId];
+
+        let newLevel = targetUser.currentLevel || 'Beginner';
+        const currentLevelIndex = LEVELS.indexOf(newLevel);
+
+        if (currentLevelIndex < LEVELS.length - 1) {
+            // Get live courses from localStorage or default
+            const storedCourses = localStorage.getItem('kmt_courses');
+            const liveCourses = storedCourses ? JSON.parse(storedCourses) : COURSES;
+
+            const currentLevelCourses = liveCourses.filter(c => c.level === newLevel);
+            let allLevelVideos = [];
+            currentLevelCourses.forEach(c => {
+                c.lessons?.forEach(l => allLevelVideos.push(l.id));
+            });
+
+            const allWatched = allLevelVideos.length > 0 && allLevelVideos.every(id => newCompletedVideos.includes(id));
+
+            if (allWatched) {
+                newLevel = LEVELS[currentLevelIndex + 1];
+            }
+        }
+
+        const updatedUser = {
+            ...targetUser,
+            completedVideos: newCompletedVideos,
+            currentLevel: newLevel
+        };
+
+        const updatedUsers = allUsers.map(u => u.id === userId ? updatedUser : u);
+        setAllUsers(updatedUsers);
+        localStorage.setItem('trading_platform_users', JSON.stringify(updatedUsers));
+
+        if (user && user.id === userId) {
+            setUser(updatedUser);
+            localStorage.setItem('trading_platform_session', JSON.stringify(updatedUser));
+        }
+
+        return { leveledUp: newLevel !== targetUser.currentLevel, newLevel };
     };
 
     return (
@@ -158,7 +208,9 @@ export const AuthProvider = ({ children }) => {
             signup,
             allUsers,
             updateUserStatus,
-            updateUserProfile
+            updateUserProfile,
+            markVideoAsCompleted,
+            LEVELS
         }}>
             {children}
         </AuthContext.Provider>

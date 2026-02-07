@@ -1,19 +1,26 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSiteSettings } from '../../context/SiteSettingsContext';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Settings, Bell, Shield, Globe, Database, Smartphone, Save } from 'lucide-react';
-import { useState } from 'react';
+import { Settings, Shield, Save, Video } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export const SettingsPage = () => {
     const { theme, toggleTheme } = useTheme();
     const { t, language, toggleLanguage } = useLanguage();
+    const { heroVideoUrl, setHeroVideoUrl } = useSiteSettings();
 
     const [platformName, setPlatformName] = useState('KMT Trade');
     const [maintenanceMode, setMaintenanceMode] = useState(false);
     const [allowSignups, setAllowSignups] = useState(true);
+    const [homepageVideoUrl, setHomepageVideoUrl] = useState(heroVideoUrl);
+
+    useEffect(() => {
+        setHomepageVideoUrl(heroVideoUrl);
+    }, [heroVideoUrl]);
 
     const bgColor = theme === 'dark' ? '#050505' : '#f5f5f5';
     const textColor = theme === 'dark' ? '#ffffff' : '#1f2937';
@@ -72,6 +79,35 @@ export const SettingsPage = () => {
                         </div>
                     </section>
 
+                    {/* Homepage Video */}
+                    <section className="p-6 rounded-2xl border backdrop-blur-md" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: borderColor }}>
+                            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                                <Video size={20} />
+                            </div>
+                            <h2 className="text-xl font-bold">{t('homepageVideoUrl')}</h2>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <Input
+                                    label={t('homepageVideoUrl')}
+                                    value={homepageVideoUrl}
+                                    onChange={(e) => setHomepageVideoUrl(e.target.value)}
+                                />
+                                <p className="text-xs mt-2 opacity-50">{t('homepageVideoDesc')}</p>
+                            </div>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                    setHeroVideoUrl(homepageVideoUrl);
+                                }}
+                            >
+                                {t('save')} {t('homepageVideoUrl')}
+                            </Button>
+                        </div>
+                    </section>
+
                     {/* Access Control */}
                     <section className="p-6 rounded-2xl border backdrop-blur-md" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
                         <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: borderColor }}>
@@ -112,7 +148,7 @@ export const SettingsPage = () => {
                     </section>
 
                     <div className="flex justify-end pt-4">
-                        <Button className="flex items-center gap-2 px-8">
+                        <Button className="flex items-center gap-2 px-8" onClick={() => setHeroVideoUrl(homepageVideoUrl)}>
                             <Save size={18} /> {t('saveChanges')}
                         </Button>
                     </div>

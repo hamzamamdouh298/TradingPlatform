@@ -46,6 +46,8 @@ const translations = {
         lessons: 'Lessons',
         waitlist: 'Waitlist',
         startCourse: 'Start Course',
+        continueCourse: 'Continue Course',
+        completed: 'COMPLETED',
 
         // Video Player
         premiumContent: 'Premium Content',
@@ -71,13 +73,11 @@ const translations = {
         premium: 'Premium',
         activatePremium: 'Activate Premium',
         deactivatePremium: 'Deactivate Premium',
-        courses: 'Courses',
         quickAccess: 'Quick Access',
         usersDesc: 'Manage users, roles, and subscriptions',
         coursesDesc: 'Manage course content and visibility',
         uploadDesc: 'Upload new video lessons',
         newsDesc: 'Publish news and announcements',
-        settingsDesc: 'Configure platform settings',
         settingsDesc: 'Configure platform settings',
         goToPage: 'Go to Page',
 
@@ -95,7 +95,6 @@ const translations = {
         engagement: 'Engagement',
 
         // Admin Sidebar
-        overview: 'Overview',
         courseManagement: 'Course Management',
         usersManagement: 'Users',
         profile: 'Profile',
@@ -111,14 +110,17 @@ const translations = {
         premiumOnly: 'Premium Only',
         beginner: 'Beginner',
         intermediate: 'Intermediate',
-        advanced: 'Advanced',
+        professional: 'Professional',
+        yourCurrentLevel: 'Your Current Level',
+        levelProgress: 'Level Progress',
+        levelCompleteDesc: 'Level Complete! Next level unlocked.',
+        completeVideosToUnlock: 'Complete all videos to unlock next level.',
         uploadCourse: 'Upload Course',
         editCourse: 'Edit Course',
         deleteCourse: 'Delete Course',
         hideCourse: 'Hide Course',
         showCourse: 'Show Course',
         courseStats: 'Course Statistics',
-        totalViews: 'Total Views',
         premiumViews: 'Premium Views',
         cancel: 'Cancel',
         save: 'Save',
@@ -174,7 +176,6 @@ const translations = {
         videoDuration: 'Duration (mm:ss)',
         videoType: 'Video Type',
         free: 'Free',
-        premium: 'Premium',
         uploading: 'Uploading...',
         uploadSuccess: 'Video uploaded successfully!',
         uploadError: 'Error uploading video',
@@ -185,13 +186,14 @@ const translations = {
 
         // Users Page Translates
         manageUsersDesc: 'Manage platform users and subscriptions',
-        role: 'Role',
         joined: 'Joined',
         noUsersFound: 'No users found matching',
         removePremium: 'Remove Premium',
         makePremium: 'Make Premium',
         freePlan: 'Free Plan',
         premiumPlan: 'Premium',
+        learningLevel: 'Learning Level',
+        progress: 'Progress',
 
         // Courses Settings Page Translates
         coursesSettingsTitle: 'Courses Settings',
@@ -200,13 +202,10 @@ const translations = {
         startUploading: 'No courses available. Start by uploading one.',
         published: 'Published',
         hidden: 'Hidden',
-        hideCourse: 'Hide Course',
-        showCourse: 'Show Course',
         deleteCourseConfirm: 'Are you sure you want to delete this course?',
 
         // Settings Page Translates
         platformSettings: 'Platform Settings',
-        settingsDesc: 'Configure general system preferences',
         general: 'General',
         platformName: 'Platform Name',
         platformNameDesc: 'This name will appear in the page title and emails.',
@@ -221,7 +220,6 @@ const translations = {
         maintenanceModeDesc: 'Disable access for all non-admin users',
         allowSignups: 'Allow New Signups',
         allowSignupsDesc: 'Enable or disable new user registration',
-        saveChanges: 'Save Changes',
         lightMode: 'Light Mode',
         darkMode: 'Dark Mode',
         english: 'English',
@@ -229,7 +227,7 @@ const translations = {
 
         // News Page Translates
         news: 'News',
-        newsManagement: 'News Management',
+        newsManagementDescription: 'News Management',
         newsManagementDesc: 'Create, edit, and manage platform news',
         addNews: 'Add News',
         editNews: 'Edit News',
@@ -258,15 +256,38 @@ const translations = {
         joinTelegram: 'Join our Telegram Channel',
         scanQrCode: 'Scan QR Code or click the button below',
         goToChannel: 'Go to Channel',
+
+        // Homepage Hero & Sections
+        homepageVideoUrl: 'Homepage Hero Video URL',
+        homepageVideoDesc: 'YouTube URL only. Autoplay and sound apply to the new video.',
+        platformHighlights: 'Platform Highlights',
+        professionalTradingEducation: 'Professional Trading Education',
+        professionalTradingEducationDesc: 'Structured curriculum designed by experts for serious traders.',
+        stepByStepLearning: 'Step-by-Step Learning Levels',
+        stepByStepLearningDesc: 'Clear milestones and progress tracking at every stage.',
+        beginnerToProPath: 'Beginner to Professional Path',
+        beginnerToProPathDesc: 'Grow from basics to advanced strategies with a clear roadmap.',
+        learningSystemOverview: 'Learning System Overview',
+        learningProgression: 'Your path from beginner to professional',
+        beginnerLevel: 'Beginner',
+        intermediateLevel: 'Intermediate',
+        professionalLevel: 'Professional',
+        whyChoosePlatform: 'Why Choose This Platform',
+        structuredCourses: 'Structured Courses',
+        structuredCoursesDesc: 'Organized modules and clear learning paths.',
+        premiumContent: 'Premium Content',
+        premiumContentDesc: 'Exclusive strategies and in-depth analysis.',
+        realMarketKnowledge: 'Real Market Knowledge',
+        realMarketKnowledgeDesc: 'Practical skills backed by live market experience.',
+        videoUnavailable: 'Video unavailable',
+        watchOnYouTube: 'Watch on YouTube',
     },
     ar: {
         // Navbar
         adminDashboard: 'لوحة الإدارة',
         courses: 'الدورات',
         logout: 'تسجيل الخروج',
-        uploadCourse: 'رفع دورة',
         usersManagement: 'المستخدمين',
-        profile: 'الملف الشخصي',
 
         // Login Page
         welcomeBack: 'مرحباً بعودتك',
@@ -305,6 +326,8 @@ const translations = {
         lessons: 'دروس',
         waitlist: 'قائمة الانتظار',
         startCourse: 'ابدأ الدورة',
+        continueCourse: 'متابعة الدورة',
+        completed: 'مكتمل',
 
         // Video Player
         premiumContent: 'محتوى مميز',
@@ -335,7 +358,7 @@ const translations = {
         coursesDesc: 'إدارة محتوى الدورة والظهور',
         uploadDesc: 'تحميل دروس فيديو جديدة',
         newsDesc: 'نشر الأخبار والإعلانات',
-        settingsDesc: 'تكوي إعدادات المنصة',
+        settingsDesc: 'تكوين إعدادات المنصة',
         goToPage: 'الذهاب للصفحة',
 
         // Dashboard Stats & Charts
@@ -350,11 +373,79 @@ const translations = {
         last30Days: 'آخر 30 يوم',
         totalViews: 'إجمالي المشاهدات',
         engagement: 'المشاركة',
-        // courses: 'دورات', -> Removed duplicate
+
+        // Admin Sidebar
+        courseManagement: 'إدارة الدورات',
+        profile: 'الملف الشخصي',
+
+        // Course Management
+        addNewCourse: 'إضافة دورة جديدة',
+        courseTitle: 'عنوان الدورة',
+        adminCourseDescription: 'وصف الدورة',
+        courseThumbnail: 'رابط الصورة المصغرة',
+        courseLevel: 'مستوى الدورة',
+        courseType: 'نوع الدورة',
+        public: 'عام',
+        premiumOnly: 'للمميزين فقط',
+        beginner: 'مبتدئ',
+        intermediate: 'متوسط',
+        professional: 'احترافي',
+        yourCurrentLevel: 'مستواك الحالي',
+        levelProgress: 'تقدم المستوى',
+        levelCompleteDesc: 'تم اكتمال المستوى! تم فتح المستوى التالي.',
+        completeVideosToUnlock: 'أكمل كل الفيديوهات لفتح المستوى التالي.',
+        uploadCourse: 'رفع دورة',
+        editCourse: 'تعديل الدورة',
+        deleteCourse: 'حذف الدورة',
+        hideCourse: 'إخفاء الدورة',
+        showCourse: 'إظهار الدورة',
+        courseStats: 'إحصائيات الدورة',
+        premiumViews: 'مشاهدات المميزين',
+        cancel: 'إلغاء',
+        save: 'حفظ',
+        delete: 'حذف',
+        confirm: 'تأكيد',
+        edit: 'تعديل',
+
+        // User Management
+        searchUsers: 'البحث عن مستخدمين...',
+        filterByStatus: 'تصفية حسب الحالة',
+        allUsers: 'جميع المستخدمين',
+        activeUsers: 'المستخدمين النشطين',
+        inactiveUsers: 'المستخدمين غير النشطين',
+        userId: 'معرف المستخدم',
+        accountStatus: 'حالة الحساب',
+        subscriptionStatus: 'الاشتراك',
+        active: 'نشط',
+        inactive: 'غير نشط',
+        activateAccount: 'تفعيل الحساب',
+        deactivateAccount: 'تعطيل الحساب',
+        deleteAccount: 'حذف الحساب',
+        deleteUserConfirm: 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟',
+        deleteUserWarning: 'هذا الإجراء لا يمكن التراجع عنه.',
+
+        // Admin Profile
+        adminProfile: 'ملف المسؤول',
+        profileImage: 'صورة الملف الشخصي',
+        changeImage: 'تغيير الصورة',
+        adminName: 'الاسم',
+        adminEmail: 'البريد الإلكتروني',
+        editProfile: 'تعديل الملف الشخصي',
+        saveChanges: 'حفظ التغييرات',
+        profileUpdated: 'تم تحديث الملف الشخصي بنجاح',
+
+        // Messages
+        courseAdded: 'تمت إضافة الدورة بنجاح',
+        courseUpdated: 'تم تحديث الدورة بنجاح',
+        courseDeleted: 'تم حذف الدورة بنجاح',
+        userDeleted: 'تم حذف المستخدم بنجاح',
+        userActivated: 'تم تفعيل المستخدم بنجاح',
+        userDeactivated: 'تم تعطيل المستخدم بنجاح',
+        settings: 'الإعدادات',
 
         // Upload Course Page (Arabic)
         uploadCoursePageTitle: 'رفع فيديو الدورة',
-        courseDetails: 'تفاصل الدورة',
+        courseDetails: 'تفاصيل الدورة',
         videoDetails: 'تفاصيل الفيديو',
         accessSettings: 'إعدادات الوصول',
         videoTitle: 'عنوان الفيديو',
@@ -364,7 +455,6 @@ const translations = {
         videoDuration: 'المدة (دقيقة:ثانية)',
         videoType: 'نوع الفيديو',
         free: 'مجاني',
-        // premium: 'مميز (مدفوع)', -> duplicate key
         uploading: 'جارٍ الرفع...',
         uploadSuccess: 'تم رفع الفيديو بنجاح!',
         uploadError: 'خطأ في رفع الفيديو',
@@ -372,7 +462,6 @@ const translations = {
         thumbnailPreview: 'معاينة الصورة المصغرة',
         fileSelected: 'تم اختيار الملف:',
         removeFile: 'إزالة',
-        settings: 'الإعدادات',
 
         // Users Page Translates
         manageUsersDesc: 'إدارة مستخدمي المنصة والاشتراكات',
@@ -382,23 +471,20 @@ const translations = {
         makePremium: 'ترقية لمميز',
         freePlan: 'خطة مجانية',
         premiumPlan: 'خطة مميزة',
+        learningLevel: 'مستوى التعلم',
+        progress: 'التقدم',
 
         // Courses Settings Page Translates
         coursesSettingsTitle: 'إعدادات الدورات',
         manageCoursesDesc: 'إدارة وتنظيم محتوى الدورات التدريبية',
-        addNewCourse: 'إضافة دورة جديدة',
-        edit: 'تعديل',
         noImage: 'لا توجد صورة',
         startUploading: 'لا توجد دورات متاحة. ابدأ برفع واحدة.',
         published: 'منشور',
         hidden: 'مخفي',
-        hideCourse: 'إخفاء الدورة',
-        showCourse: 'إظهار الدورة',
         deleteCourseConfirm: 'هل أنت متأكد أنك تريد حذف هذه الدورة؟',
 
         // Settings Page Translates
         platformSettings: 'إعدادات المنصة',
-        settingsDesc: 'تكوين تفضيلات النظام العامة',
         general: 'عام',
         platformName: 'اسم المنصة',
         platformNameDesc: 'سيظهر هذا الاسم في عنوان الصفحة والرسائل.',
@@ -413,7 +499,6 @@ const translations = {
         maintenanceModeDesc: 'تعطيل الوصول لجميع المستخدمين غير المسؤولين',
         allowSignups: 'السماح بالتسجيلات الجديدة',
         allowSignupsDesc: 'تمكين أو تعطيل تسجيل المستخدمين الجدد',
-        saveChanges: 'حفظ التغييرات',
         lightMode: 'وضع فاتح',
         darkMode: 'وضع داكن',
         english: 'إنجليزي',
@@ -450,6 +535,31 @@ const translations = {
         joinTelegram: 'انضم إلى قناة التليجرام',
         scanQrCode: 'امسح الرمز أو انقر على الزر أدناه',
         goToChannel: 'الذهاب للقناة',
+
+        // Homepage Hero & Sections (Arabic)
+        homepageVideoUrl: 'رابط فيديو الصفحة الرئيسية',
+        homepageVideoDesc: 'رابط يوتيوب فقط. التشغيل التلقائي والصوت ينطبقان على الفيديو الجديد.',
+        platformHighlights: 'أبرز المنصة',
+        professionalTradingEducation: 'تعليم تداول احترافي',
+        professionalTradingEducationDesc: 'منهج منظم من خبراء للمتداولين الجادين.',
+        stepByStepLearning: 'مستويات تعلم خطوة بخطوة',
+        stepByStepLearningDesc: 'معالم واضحة وتتبع التقدم في كل مرحلة.',
+        beginnerToProPath: 'من المبتدئ إلى المحترف',
+        beginnerToProPathDesc: 'تطور من الأساسيات إلى الاستراتيجيات المتقدمة بخطة واضحة.',
+        learningSystemOverview: 'نظرة على نظام التعلم',
+        learningProgression: 'مسارك من المبتدئ إلى المحترف',
+        beginnerLevel: 'مبتدئ',
+        intermediateLevel: 'متوسط',
+        professionalLevel: 'احترافي',
+        whyChoosePlatform: 'لماذا هذه المنصة',
+        structuredCourses: 'دورات منظمة',
+        structuredCoursesDesc: 'وحدات منظمة ومسارات تعلم واضحة.',
+        premiumContent: 'محتوى مميز',
+        premiumContentDesc: 'استراتيجيات حصرية وتحليل معمق.',
+        realMarketKnowledge: 'معرفة السوق الحقيقية',
+        realMarketKnowledgeDesc: 'مهارات عملية مدعومة بتجربة السوق المباشرة.',
+        videoUnavailable: 'الفيديو غير متاح',
+        watchOnYouTube: 'شاهد على يوتيوب',
     }
 };
 

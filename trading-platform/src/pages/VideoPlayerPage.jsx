@@ -5,13 +5,13 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Navbar } from '../components/Navbar';
 import { Button } from '../components/Button';
-import { Lock, Play } from 'lucide-react';
+import { Lock, Play, CheckCircle, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { COURSES } from '../data/courses';
 
 export const VideoPlayerPage = () => {
     const { courseId } = useParams();
-    const { user } = useAuth();
+    const { user, markVideoAsCompleted } = useAuth();
     const { theme } = useTheme();
     const { t } = useLanguage();
     const navigate = useNavigate();
@@ -95,7 +95,29 @@ export const VideoPlayerPage = () => {
                         </div>
 
                         <div>
-                            <h1 className="text-2xl font-bold mb-2">{currentLesson?.title}</h1>
+                            <div className="flex items-center justify-between mb-2">
+                                <h1 className="text-2xl font-bold">{currentLesson?.title}</h1>
+                                {user && !user.completedVideos?.includes(currentLesson?.id) && !isLocked(currentLesson) && (
+                                    <Button
+                                        onClick={() => {
+                                            const result = markVideoAsCompleted(user.id, currentLesson.id);
+                                            if (result?.leveledUp) {
+                                                alert(`Congratulations! You've unlocked the ${result.newLevel} level!`);
+                                            }
+                                        }}
+                                        variant="outline"
+                                        size="sm"
+                                        className="flex items-center gap-2"
+                                    >
+                                        <CheckCircle2 size={16} /> Mark as Completed
+                                    </Button>
+                                )}
+                                {user?.completedVideos?.includes(currentLesson?.id) && (
+                                    <div className="flex items-center gap-2 text-green-500 font-medium">
+                                        <CheckCircle size={20} /> Completed
+                                    </div>
+                                )}
+                            </div>
                             <p style={{ color: textSecondary }}>{course.description}</p>
                         </div>
                     </div>
@@ -148,11 +170,11 @@ export const VideoPlayerPage = () => {
                                                 style={{
                                                     backgroundColor: active
                                                         ? '#00E5FF'
-                                                        : (theme === 'dark' ? '#121212' : '#f3f4f6'),
-                                                    color: active ? '#000000' : textSecondary
+                                                        : (user?.completedVideos?.includes(lesson.id) ? '#22c55e' : (theme === 'dark' ? '#121212' : '#f3f4f6')),
+                                                    color: (active || user?.completedVideos?.includes(lesson.id)) ? '#000000' : textSecondary
                                                 }}
                                             >
-                                                {course.lessons.indexOf(lesson) + 1}
+                                                {user?.completedVideos?.includes(lesson.id) ? <CheckCircle size={14} /> : course.lessons.indexOf(lesson) + 1}
                                             </div>
                                             {locked && (
                                                 <div className="absolute -top-1 -right-1 rounded-full p-0.5"

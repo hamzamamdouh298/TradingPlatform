@@ -3,135 +3,327 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Button } from '../components/Button';
-import { PlayCircle, Award, TrendingUp, Users } from 'lucide-react';
+import { HeroVideo } from '../components/HeroVideo';
 import { Navbar } from '../components/Navbar';
+import {
+    BookOpen,
+    Layers,
+    TrendingUp,
+    Award,
+    BarChart3,
+    Target,
+    Shield,
+    Sparkles,
+    ChevronRight,
+} from 'lucide-react';
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+        opacity: 1,
+        transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
+    }),
+};
+
+const item = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0 },
+};
 
 export const LandingPage = () => {
     const navigate = useNavigate();
     const { theme } = useTheme();
     const { t } = useLanguage();
 
-    const bgColor = theme === 'dark' ? '#050505' : '#f5f5f5';
-    const textColor = theme === 'dark' ? '#ffffff' : '#1f2937';
-    const textSecondary = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const isDark = theme === 'dark';
+    const bgColor = isDark ? '#050505' : '#f5f5f5';
+    const textColor = isDark ? '#ffffff' : '#1f2937';
+    const textSecondary = isDark ? '#9ca3af' : '#6b7280';
+    const cardBg = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.9)';
+    const borderColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+
+    const highlights = [
+        {
+            icon: BookOpen,
+            title: t('professionalTradingEducation'),
+            description: t('professionalTradingEducationDesc'),
+        },
+        {
+            icon: Layers,
+            title: t('stepByStepLearning'),
+            description: t('stepByStepLearningDesc'),
+        },
+        {
+            icon: TrendingUp,
+            title: t('beginnerToProPath'),
+            description: t('beginnerToProPathDesc'),
+        },
+    ];
+
+    const levels = [
+        { key: 'beginnerLevel', icon: Target, progress: 33 },
+        { key: 'intermediateLevel', icon: BarChart3, progress: 66 },
+        { key: 'professionalLevel', icon: Award, progress: 100 },
+    ];
+
+    const whyChoose = [
+        { key: 'structuredCourses', subKey: 'structuredCoursesDesc', icon: Layers },
+        { key: 'premiumContent', subKey: 'premiumContentDesc', icon: Sparkles },
+        { key: 'realMarketKnowledge', subKey: 'realMarketKnowledgeDesc', icon: Shield },
+    ];
 
     return (
-        <div className="min-h-screen relative overflow-hidden transition-colors duration-300" style={{ backgroundColor: bgColor, color: textColor }}>
+        <div
+            className="min-h-screen relative overflow-hidden transition-colors duration-300"
+            style={{ backgroundColor: bgColor, color: textColor }}
+        >
             <Navbar />
 
-            {/* Hero Background */}
-            <div className="absolute top-0 left-0 w-full h-[80vh] pointer-events-none"
-                style={{
-                    background: theme === 'dark'
-                        ? 'linear-gradient(to bottom, rgba(30, 58, 138, 0.1), rgba(5, 5, 5, 0))'
-                        : 'linear-gradient(to bottom, rgba(191, 219, 254, 0.3), rgba(245, 245, 245, 0))'
-                }}
-            />
-            <div className="absolute top-20 right-0 w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none animate-pulse-slow"
-                style={{ backgroundColor: theme === 'dark' ? 'rgba(0, 229, 255, 0.05)' : 'rgba(0, 229, 255, 0.1)' }}
-            />
-
-            <main className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto">
-
-                {/* Hero Section */}
-                <div className="grid lg:grid-cols-2 gap-12 items-center mb-32">
+            <main className="relative pt-20 pb-24">
+                {/* Hero Video Section — main visual focus */}
+                <section className="relative px-4 sm:px-6 max-w-7xl mx-auto pt-6">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-primary text-sm font-medium mb-8 transition-colors duration-300"
-                            style={{
-                                backgroundColor: theme === 'dark' ? '#121212' : '#ffffff',
-                                borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                            }}
-                        >
-                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                            {t('professionalTrading')}
-                        </div>
-
-                        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
-                            {t('masterMarkets')} <br />
-                            <span className="text-gradient-primary">{t('withConfidence')}</span>
-                        </h1>
-
-                        <p className="text-xl mb-10 max-w-xl leading-relaxed" style={{ color: textSecondary }}>
-                            {t('tradingDescription')}
-                        </p>
-
-                        <div className="flex flex-wrap gap-4">
-                            <Button size="lg" onClick={() => navigate('/courses')}>
-                                {t('startLearning')}
-                            </Button>
-                            <Button variant="outline" size="lg" onClick={() => navigate('/courses')}>
-                                {t('viewCourses')}
-                            </Button>
-                        </div>
-
-                        <div className="mt-12 flex items-center gap-8" style={{ color: textSecondary }}>
-                            <div className="flex items-center gap-2">
-                                <Users size={20} className="text-primary" />
-                                <span>2,500+ {t('students')}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Award size={20} className="text-primary" />
-                                <span>{t('certifiedMentors')}</span>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
                         className="relative"
                     >
-                        <div className="glass-card rounded-2xl p-6 relative z-10 animate-float"
-                            style={{ borderColor: theme === 'dark' ? 'rgba(0, 229, 255, 0.2)' : 'rgba(0, 229, 255, 0.3)' }}
+                        <HeroVideo overlay className="shadow-2xl" />
+                        {/* Overlay CTA for readability */}
+                        <div
+                            className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 pointer-events-none rounded-xl"
+                            style={{
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%)',
+                            }}
                         >
-                            {/* Decorative Chart UI */}
-                            <div className="flex items-center justify-between mb-8">
-                                <div>
-                                    <div className="text-sm" style={{ color: textSecondary }}>BTC/USD</div>
-                                    <div className="text-2xl font-bold">$96,420.50</div>
-                                </div>
-                                <div className="px-3 py-1 rounded text-sm font-medium"
-                                    style={{
-                                        backgroundColor: theme === 'dark' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)',
-                                        color: '#22c55e'
-                                    }}
+                            <div className="max-w-2xl pointer-events-auto">
+                                <motion.h1
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                    className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white mb-3"
                                 >
-                                    +5.24%
-                                </div>
-                            </div>
-
-                            {/* Fake Chart Lines */}
-                            <div className="h-48 flex items-end gap-2">
-                                {[40, 60, 45, 70, 55, 80, 65, 90, 75, 100].map((h, i) => (
-                                    <div
-                                        key={i}
-                                        className="flex-1 rounded-t-sm transition-all duration-500 hover:opacity-80"
-                                        style={{
-                                            height: `${h}%`,
-                                            background: theme === 'dark'
-                                                ? 'linear-gradient(to top, rgba(0, 229, 255, 0.2), rgba(0, 229, 255, 1))'
-                                                : 'linear-gradient(to top, rgba(0, 229, 255, 0.3), rgba(0, 229, 255, 0.8))'
-                                        }}
-                                    />
-                                ))}
+                                    {t('masterMarkets')}{' '}
+                                    <span className="text-primary">{t('withConfidence')}</span>
+                                </motion.h1>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.45, duration: 0.5 }}
+                                    className="text-white/90 text-lg mb-6 max-w-xl"
+                                >
+                                    {t('tradingDescription')}
+                                </motion.p>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.6, duration: 0.5 }}
+                                    className="flex flex-wrap gap-3"
+                                >
+                                    <Button size="lg" onClick={() => navigate('/courses')}>
+                                        {t('startLearning')}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        onClick={() => navigate('/courses')}
+                                        className="border-white/40 text-white hover:bg-white/10"
+                                    >
+                                        {t('viewCourses')}
+                                    </Button>
+                                </motion.div>
                             </div>
                         </div>
-
-                        {/* Background elements */}
-                        <div className="absolute -z-10 top-10 -right-10 w-full h-full border-2 rounded-2xl"
-                            style={{ borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}
-                        />
-                        <div className="absolute -z-20 top-20 -right-20 w-full h-full border-2 rounded-2xl opacity-50"
-                            style={{ borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}
-                        />
                     </motion.div>
-                </div>
+                </section>
+
+                {/* Platform Highlights */}
+                <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-24 sm:mt-32">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.5 }}
+                        className="text-3xl sm:text-4xl font-bold text-center mb-4"
+                    >
+                        {t('platformHighlights')}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="text-center max-w-2xl mx-auto mb-14"
+                        style={{ color: textSecondary }}
+                    >
+                        {t('tradingDescription')}
+                    </motion.p>
+                    <motion.div
+                        variants={container}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-60px' }}
+                        className="grid sm:grid-cols-3 gap-6"
+                    >
+                        {highlights.map(({ icon: Icon, title, description }) => (
+                            <motion.div
+                                key={title}
+                                variants={item}
+                                className="rounded-2xl border p-6 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+                                style={{ backgroundColor: cardBg, borderColor }}
+                            >
+                                <div
+                                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"
+                                    style={{
+                                        backgroundColor: isDark ? 'rgba(0, 229, 255, 0.1)' : 'rgba(0, 229, 255, 0.12)',
+                                        color: '#00E5FF',
+                                    }}
+                                >
+                                    <Icon size={28} strokeWidth={1.8} />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2">{title}</h3>
+                                <p className="leading-relaxed" style={{ color: textSecondary }}>
+                                    {description}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </section>
+
+                {/* Learning System Overview */}
+                <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-24 sm:mt-32">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.5 }}
+                        className="text-3xl sm:text-4xl font-bold text-center mb-4"
+                    >
+                        {t('learningSystemOverview')}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="text-center max-w-xl mx-auto mb-14"
+                        style={{ color: textSecondary }}
+                    >
+                        {t('learningProgression')}
+                    </motion.p>
+                    <motion.div
+                        variants={container}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-60px' }}
+                        className="grid sm:grid-cols-3 gap-6"
+                    >
+                        {levels.map(({ key, icon: Icon, progress }, i) => (
+                            <motion.div
+                                key={key}
+                                variants={item}
+                                className="relative rounded-2xl border p-6 sm:p-8 overflow-hidden"
+                                style={{ backgroundColor: cardBg, borderColor }}
+                            >
+                                <div
+                                    className="absolute inset-0 opacity-[0.03]"
+                                    style={{
+                                        background: `linear-gradient(90deg, #00E5FF ${progress}%, transparent ${progress}%)`,
+                                    }}
+                                />
+                                <div className="relative flex items-start gap-4">
+                                    <div
+                                        className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                                        style={{
+                                            backgroundColor: isDark ? 'rgba(0, 229, 255, 0.15)' : 'rgba(0, 229, 255, 0.15)',
+                                            color: '#00E5FF',
+                                        }}
+                                    >
+                                        <Icon size={24} />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <h3 className="text-lg font-bold mb-1">{t(key)}</h3>
+                                        <div className="h-2 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden mt-3">
+                                            <motion.div
+                                                className="h-full rounded-full bg-primary"
+                                                initial={{ width: 0 }}
+                                                whileInView={{ width: `${progress}%` }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.8, delay: 0.2 + i * 0.1 }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                {i < levels.length - 1 && (
+                                    <div className="hidden sm:block absolute top-1/2 -right-3 w-6 h-6 -translate-y-1/2 text-primary/50">
+                                        <ChevronRight size={24} />
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </section>
+
+                {/* Why Choose This Platform */}
+                <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-24 sm:mt-32">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.5 }}
+                        className="text-3xl sm:text-4xl font-bold text-center mb-4"
+                    >
+                        {t('whyChoosePlatform')}
+                    </motion.h2>
+                    <motion.div
+                        variants={container}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-60px' }}
+                        className="grid sm:grid-cols-3 gap-6 mt-14"
+                    >
+                        {whyChoose.map(({ key, subKey, icon: Icon }) => (
+                            <motion.div
+                                key={key}
+                                variants={item}
+                                className="rounded-2xl border p-6 sm:p-8 text-center transition-all duration-300 hover:border-primary/30"
+                                style={{ backgroundColor: cardBg, borderColor }}
+                            >
+                                <div
+                                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                                    style={{
+                                        backgroundColor: isDark ? 'rgba(0, 229, 255, 0.1)' : 'rgba(0, 229, 255, 0.12)',
+                                        color: '#00E5FF',
+                                    }}
+                                >
+                                    <Icon size={32} strokeWidth={1.6} />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2">{t(key)}</h3>
+                                <p className="leading-relaxed text-sm" style={{ color: textSecondary }}>
+                                    {t(subKey)}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </section>
+
+                {/* Bottom CTA */}
+                <motion.section
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="px-4 sm:px-6 max-w-3xl mx-auto mt-24 sm:mt-32 text-center"
+                >
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t('masterMarkets')}</h2>
+                    <p className="mb-8" style={{ color: textSecondary }}>
+                        {t('tradingDescription')}
+                    </p>
+                    <Button size="lg" onClick={() => navigate('/courses')}>
+                        {t('startLearning')}
+                    </Button>
+                </motion.section>
             </main>
         </div>
     );
-};
+}

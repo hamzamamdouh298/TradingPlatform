@@ -20,13 +20,15 @@ import { UserNewsPage } from './pages/UserNewsPage';
 
 import { CoursesProvider } from './context/CoursesContext';
 import { NewsProvider } from './context/NewsContext';
+import { SiteSettingsProvider } from './context/SiteSettingsContext';
 
 function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <CoursesProvider>
-          <NewsProvider>
+        <SiteSettingsProvider>
+          <CoursesProvider>
+            <NewsProvider>
             <Router>
               <AuthProvider>
                 <Routes>
@@ -109,8 +111,9 @@ function App() {
                 </Routes>
               </AuthProvider>
             </Router>
-          </NewsProvider>
-        </CoursesProvider>
+            </NewsProvider>
+          </CoursesProvider>
+        </SiteSettingsProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

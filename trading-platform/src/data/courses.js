@@ -19,7 +19,7 @@ export const COURSES = [
         title: 'Advanced Technical Analysis',
         description: 'Deep dive into chart patterns and indicators.',
         thumbnail: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1000&auto=format&fit=crop',
-        level: 'Advanced',
+        level: 'Professional',
         totalLessons: 4,
         lessons: [
             { id: 201, title: 'Fibonacci Retracement', type: 'free', duration: '18:00' },

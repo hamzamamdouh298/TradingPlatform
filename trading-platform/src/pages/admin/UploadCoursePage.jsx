@@ -22,6 +22,7 @@ export const UploadCoursePage = () => {
         videoDescription: '',
         videoDuration: '',
         accessType: 'free', // 'free' or 'premium'
+        courseLevel: 'Beginner', // 'Beginner', 'Intermediate', 'Professional'
     });
 
     const [videoFile, setVideoFile] = useState(null);
@@ -114,7 +115,7 @@ export const UploadCoursePage = () => {
                 title: formData.courseTitle,
                 description: formData.courseDescription,
                 thumbnail: thumbnailPreview || 'https://via.placeholder.com/300', // Use placeholder if no thumb
-                level: 'Intermediate', // Default or add field
+                level: formData.courseLevel || 'Beginner',
                 totalLessons: 1,
                 lessons: [
                     {
@@ -139,6 +140,7 @@ export const UploadCoursePage = () => {
                 videoDescription: '',
                 videoDuration: '',
                 accessType: 'free',
+                courseLevel: 'Beginner',
             });
             setVideoFile(null);
             setThumbnailFile(null);
@@ -306,6 +308,26 @@ export const UploadCoursePage = () => {
                                             {t(type)}
                                         </button>
                                     ))}
+                                </div>
+
+                                {/* Course Level Selection */}
+                                <div className="space-y-3 mb-8">
+                                    <label className="text-sm font-medium block">{t('courseLevel') || 'Course Level'}</label>
+                                    <select
+                                        name="courseLevel"
+                                        value={formData.courseLevel}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl px-4 py-3 outline-none transition-all duration-300 border-2"
+                                        style={{
+                                            backgroundColor: isDark ? '#1A1A1A' : '#ffffff',
+                                            borderColor: isDark ? '#333' : '#e5e7eb',
+                                            color: textColor
+                                        }}
+                                    >
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Professional">Professional</option>
+                                    </select>
                                 </div>
 
                                 {/* Thumbnail Upload */}
