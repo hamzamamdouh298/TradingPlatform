@@ -297,6 +297,47 @@ const translations = {
         categoryOrder: 'Category order',
         moveUp: 'Move up',
         moveDown: 'Move down',
+
+        // Homepage redesign — Hero
+        heroHeadline: 'Professional Trading Education That Works',
+        heroValueProp: 'Structured learning from beginner to professional. Real market analysis, live signals, and a supportive community—all in one place.',
+        joinCourses: 'Join Courses',
+        contactSupport: 'Contact Support',
+
+        // About the Platform
+        aboutPlatform: 'About the Platform',
+        aboutPlatformLead: 'Learn with a system built for serious traders.',
+        aboutPoint1: 'Professional trading education designed by experienced analysts.',
+        aboutPoint2: 'Structured learning path from beginner to professional level.',
+        aboutPoint3: 'Real market experience, live analysis, and practical strategies.',
+
+        // Signals & Community
+        signalsAndCommunity: 'Signals & Community',
+        signalsLead: 'Stay connected with live signals and educational content.',
+        telegramSignalsChannel: 'Main Signals Channel',
+        telegramSignalsDesc: 'Live trading signals and market updates.',
+        telegramCoursesChannel: 'Courses & Education',
+        telegramCoursesDesc: 'Course updates, lessons, and learning materials.',
+        valueLiveSignals: 'Live signals',
+        valueEducationalContent: 'Educational content',
+        valueCommunityInteraction: 'Community interaction',
+
+        // Contact & Support
+        contactAndSupport: 'Contact & Support',
+        contactLead: 'We’re here to help.',
+        contactSupportDesc: 'Get help with support, subscription inquiries, and premium access.',
+        contactTelegramLabel: 'Contact us on Telegram',
+
+        // Why Choose Us (trust cards)
+        whyChooseUs: 'Why Choose Us',
+        whyTrustedKnowledge: 'Trusted Trading Knowledge',
+        whyTrustedKnowledgeDesc: 'Content created by experienced traders and analysts.',
+        whyOrganizedLevels: 'Organized Course Levels',
+        whyOrganizedLevelsDesc: 'Clear path from beginner to professional.',
+        whyPremiumAndFree: 'Premium & Free Content',
+        whyPremiumAndFreeDesc: 'Mix of free and premium courses for every goal.',
+        whyCommunityDriven: 'Community-Driven Learning',
+        whyCommunityDrivenDesc: 'Learn alongside a supportive trading community.',
     },
     ar: {
         // Navbar
@@ -592,6 +633,47 @@ const translations = {
         categoryOrder: 'ترتيب الفئات',
         moveUp: 'تحريك لأعلى',
         moveDown: 'تحريك لأسفل',
+
+        // Homepage redesign — Hero (Arabic)
+        heroHeadline: 'تعليم تداول احترافي يحقق النتائج',
+        heroValueProp: 'تعلم منظم من المبتدئ إلى المحترف. تحليل السوق الفعلي وإشارات مباشرة ومجتمع داعم—كل ذلك في مكان واحد.',
+        joinCourses: 'انضم للدورات',
+        contactSupport: 'تواصل مع الدعم',
+
+        // About the Platform (Arabic)
+        aboutPlatform: 'عن المنصة',
+        aboutPlatformLead: 'تعلم بنظام مصمم للمتداولين الجادين.',
+        aboutPoint1: 'تعليم تداول احترافي من محللين ذوي خبرة.',
+        aboutPoint2: 'مسار تعلم منظم من المستوى المبتدئ إلى الاحترافي.',
+        aboutPoint3: 'تجربة سوق حقيقية وتحليل مباشر واستراتيجيات عملية.',
+
+        // Signals & Community (Arabic)
+        signalsAndCommunity: 'الإشارات والمجتمع',
+        signalsLead: 'ابق على تواصل مع الإشارات المباشرة والمحتوى التعليمي.',
+        telegramSignalsChannel: 'قناة الإشارات الرئيسية',
+        telegramSignalsDesc: 'إشارات تداول مباشرة وتحديثات السوق.',
+        telegramCoursesChannel: 'الدورات والتعليم',
+        telegramCoursesDesc: 'تحديثات الدورات والدروس والمواد التعليمية.',
+        valueLiveSignals: 'إشارات مباشرة',
+        valueEducationalContent: 'محتوى تعليمي',
+        valueCommunityInteraction: 'تفاعل مجتمعي',
+
+        // Contact & Support (Arabic)
+        contactAndSupport: 'التواصل والدعم',
+        contactLead: 'نحن هنا لمساعدتك.',
+        contactSupportDesc: 'احصل على مساعدة في الدعم واستفسارات الاشتراك والوصول المميز.',
+        contactTelegramLabel: 'تواصل معنا على تليجرام',
+
+        // Why Choose Us (Arabic)
+        whyChooseUs: 'لماذا نحن',
+        whyTrustedKnowledge: 'معرفة تداول موثوقة',
+        whyTrustedKnowledgeDesc: 'محتوى من متداولين ومحللين ذوي خبرة.',
+        whyOrganizedLevels: 'مستويات دورات منظمة',
+        whyOrganizedLevelsDesc: 'مسار واضح من المبتدئ إلى الاحترافي.',
+        whyPremiumAndFree: 'محتوى مميز ومجاني',
+        whyPremiumAndFreeDesc: 'مزيج من دورات مجانية ومميزة لكل هدف.',
+        whyCommunityDriven: 'تعلم قائم على المجتمع',
+        whyCommunityDrivenDesc: 'تعلم ضمن مجتمع تداول داعم.',
     }
 };
 
