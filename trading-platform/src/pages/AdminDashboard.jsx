@@ -15,12 +15,15 @@ import {
     ArrowRight,
     DollarSign
 } from 'lucide-react';
-import { COURSES } from '../data/courses';
+import { useCourses } from '../context/CoursesContext';
+import { useCourseCategories } from '../context/CourseCategoriesContext';
 
 export const AdminDashboard = () => {
     const { allUsers } = useAuth();
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const { courses, getCourseCountByCategory } = useCourses();
+    const { getAllCategoriesForAdmin } = useCourseCategories();
 
     const isDark = theme === 'dark';
     const bgColor = isDark ? '#050505' : '#f5f5f5';
@@ -29,10 +32,13 @@ export const AdminDashboard = () => {
     const cardBg = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.8)';
     const borderColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 
+    const courseCountByCategory = getCourseCountByCategory();
+    const categoryList = getAllCategoriesForAdmin();
+
     const stats = [
         { label: t('totalUsers'), value: allUsers.length, icon: Users, color: 'text-primary' },
         { label: t('premiumMembers'), value: allUsers.filter(u => u.isPremium).length, icon: DollarSign, color: 'text-warning' },
-        { label: t('totalContent'), value: `${COURSES.length} ${t('courses')}`, icon: Video, color: 'text-purple-400' },
+        { label: t('totalContent'), value: `${courses.length} ${t('courses')}`, icon: Video, color: 'text-purple-400' },
         { label: t('revenue'), value: '$12,450', icon: TrendingUp, color: 'text-green-400' },
     ];
 
@@ -116,6 +122,28 @@ export const AdminDashboard = () => {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Courses per category */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                    className="mb-8"
+                >
+                    <h3 className="text-xl font-bold mb-4">{t('coursesPerCategory')}</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {categoryList.map((cat, i) => (
+                            <div
+                                key={cat.id}
+                                className="p-4 rounded-xl border flex items-center justify-between"
+                                style={{ backgroundColor: cardBg, borderColor: borderColor }}
+                            >
+                                <span className="font-medium">{t(cat.labelKey)}</span>
+                                <span className="text-2xl font-bold text-primary">{courseCountByCategory[cat.id] || 0}</span>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
 
                 {/* Charts Section - NEW */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">

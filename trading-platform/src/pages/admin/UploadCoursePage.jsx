@@ -7,22 +7,26 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { UploadCloud, X, Film, Image as ImageIcon, CheckCircle, AlertCircle, FileVideo, Clock, Radio, Lock, Unlock, BookOpen } from 'lucide-react';
 import { useCourses } from '../../context/CoursesContext';
+import { useCourseCategories } from '../../context/CourseCategoriesContext';
 
 export const UploadCoursePage = () => {
     const { theme } = useTheme();
-    const { t, language } = useLanguage();
+    const { t } = useLanguage();
     const { addCourse } = useCourses();
+    const { getAllCategoriesForAdmin, defaultCategoryId } = useCourseCategories();
     const fileInputRef = useRef(null);
     const thumbnailInputRef = useRef(null);
 
+    const categoryOptions = getAllCategoriesForAdmin();
     const [formData, setFormData] = useState({
         courseTitle: '',
         courseDescription: '',
         videoTitle: '',
         videoDescription: '',
         videoDuration: '',
-        accessType: 'free', // 'free' or 'premium'
-        courseLevel: 'Beginner', // 'Beginner', 'Intermediate', 'Professional'
+        accessType: 'free',
+        courseLevel: 'Beginner',
+        courseCategory: defaultCategoryId,
     });
 
     const [videoFile, setVideoFile] = useState(null);
@@ -90,6 +94,10 @@ export const UploadCoursePage = () => {
             setStatus({ type: 'error', message: 'Please fill in all required fields and upload a video.' });
             return;
         }
+        if (!formData.courseCategory) {
+            setStatus({ type: 'error', message: t('courseCategoryRequired') });
+            return;
+        }
 
         setUploading(true);
         setStatus({ type: '', message: '' });
@@ -114,8 +122,9 @@ export const UploadCoursePage = () => {
             const newCourseData = {
                 title: formData.courseTitle,
                 description: formData.courseDescription,
-                thumbnail: thumbnailPreview || 'https://via.placeholder.com/300', // Use placeholder if no thumb
-                level: formData.courseLevel || 'Beginner',
+                thumbnail: thumbnailPreview || 'https://via.placeholder.com/300',
+                level: formData.courseCategory === 'tradingPlatform' ? (formData.courseLevel || 'Beginner') : 'Beginner',
+                categoryId: formData.courseCategory,
                 totalLessons: 1,
                 lessons: [
                     {
@@ -141,6 +150,7 @@ export const UploadCoursePage = () => {
                 videoDuration: '',
                 accessType: 'free',
                 courseLevel: 'Beginner',
+                courseCategory: defaultCategoryId,
             });
             setVideoFile(null);
             setThumbnailFile(null);
@@ -310,13 +320,14 @@ export const UploadCoursePage = () => {
                                     ))}
                                 </div>
 
-                                {/* Course Level Selection */}
-                                <div className="space-y-3 mb-8">
-                                    <label className="text-sm font-medium block">{t('courseLevel') || 'Course Level'}</label>
+                                {/* Course Category (mandatory) */}
+                                <div className="space-y-3 mb-6">
+                                    <label className="text-sm font-medium block">{t('courseCategory')} *</label>
                                     <select
-                                        name="courseLevel"
-                                        value={formData.courseLevel}
+                                        name="courseCategory"
+                                        value={formData.courseCategory}
                                         onChange={handleInputChange}
+                                        required
                                         className="w-full rounded-xl px-4 py-3 outline-none transition-all duration-300 border-2"
                                         style={{
                                             backgroundColor: isDark ? '#1A1A1A' : '#ffffff',
@@ -324,11 +335,38 @@ export const UploadCoursePage = () => {
                                             color: textColor
                                         }}
                                     >
-                                        <option value="Beginner">Beginner</option>
-                                        <option value="Intermediate">Intermediate</option>
-                                        <option value="Professional">Professional</option>
+                                        {categoryOptions.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>{t(cat.labelKey)}</option>
+                                        ))}
                                     </select>
                                 </div>
+
+                                {/* Course Level Selection — only for Trading Platform */}
+                                {formData.courseCategory === 'tradingPlatform' && (
+                                    <div className="space-y-3 mb-8">
+                                        <label className="text-sm font-medium block">{t('courseLevel') || 'Course Level'}</label>
+                                        <select
+                                            name="courseLevel"
+                                            value={formData.courseLevel}
+                                            onChange={handleInputChange}
+                                            className="w-full rounded-xl px-4 py-3 outline-none transition-all duration-300 border-2"
+                                            style={{
+                                                backgroundColor: isDark ? '#1A1A1A' : '#ffffff',
+                                                borderColor: isDark ? '#333' : '#e5e7eb',
+                                                color: textColor
+                                            }}
+                                        >
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Professional">Professional</option>
+                                        </select>
+                                    </div>
+                                )}
+                                {formData.courseCategory === 'newsCourses' && (
+                                    <p className="text-sm mb-8 opacity-70" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>
+                                        {t('courseLevelNewsOnly')}
+                                    </p>
+                                )}
 
                                 {/* Thumbnail Upload */}
                                 <div className="space-y-3">

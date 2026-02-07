@@ -1,21 +1,31 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { COURSES } from '../data/courses';
+import { DEFAULT_COURSE_CATEGORY_ID } from '../config/courseCategories';
 
 const CoursesContext = createContext();
+
+const ensureCategoryId = (course) => ({
+    ...course,
+    categoryId: course.categoryId || DEFAULT_COURSE_CATEGORY_ID,
+});
 
 export const CoursesProvider = ({ children }) => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Load courses from localStorage or use default
         const storedCourses = localStorage.getItem('kmt_courses');
         if (storedCourses) {
-            setCourses(JSON.parse(storedCourses));
+            const parsed = JSON.parse(storedCourses);
+            const migrated = parsed.map(ensureCategoryId);
+            setCourses(migrated);
+            if (migrated.some((c, i) => !parsed[i].categoryId)) {
+                localStorage.setItem('kmt_courses', JSON.stringify(migrated));
+            }
         } else {
-            // Add stats to default courses
-            const coursesWithStats = COURSES.map(course => ({
+            const coursesWithStats = COURSES.map((course) => ({
                 ...course,
+                categoryId: course.categoryId || DEFAULT_COURSE_CATEGORY_ID,
                 views: Math.floor(Math.random() * 1000) + 100,
                 premiumViews: Math.floor(Math.random() * 500) + 50,
                 isVisible: true,
@@ -31,6 +41,7 @@ export const CoursesProvider = ({ children }) => {
         const newCourse = {
             ...courseData,
             id: Date.now(),
+            categoryId: courseData.categoryId || DEFAULT_COURSE_CATEGORY_ID,
             views: 0,
             premiumViews: 0,
             isVisible: true,
@@ -65,7 +76,20 @@ export const CoursesProvider = ({ children }) => {
     };
 
     const getVisibleCourses = () => {
-        return courses.filter(course => course.isVisible);
+        return courses.filter((course) => course.isVisible);
+    };
+
+    const getVisibleCoursesByCategory = (categoryId) => {
+        return courses.filter((c) => c.isVisible && c.categoryId === categoryId);
+    };
+
+    const getCourseCountByCategory = () => {
+        const counts = {};
+        courses.forEach((c) => {
+            const id = c.categoryId || DEFAULT_COURSE_CATEGORY_ID;
+            counts[id] = (counts[id] || 0) + 1;
+        });
+        return counts;
     };
 
     return (
@@ -78,6 +102,8 @@ export const CoursesProvider = ({ children }) => {
                 deleteCourse,
                 toggleCourseVisibility,
                 getVisibleCourses,
+                getVisibleCoursesByCategory,
+                getCourseCountByCategory,
             }}
         >
             {children}

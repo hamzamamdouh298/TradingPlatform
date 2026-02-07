@@ -281,6 +281,22 @@ const translations = {
         realMarketKnowledgeDesc: 'Practical skills backed by live market experience.',
         videoUnavailable: 'Video unavailable',
         watchOnYouTube: 'Watch on YouTube',
+
+        // Course categories
+        categoryTradingPlatform: 'Trading Platform',
+        categoryNewsCourses: 'News Courses',
+        courseCategory: 'Course Category',
+        courseCategoryRequired: 'Please select a course category.',
+        courseLevelNewsOnly: 'Levels (Beginner / Intermediate / Professional) apply to Trading Platform only. News Courses have no level.',
+        noCoursesInCategory: 'No courses in this category yet.',
+        filterByCategory: 'Filter by category',
+        allCategories: 'All Categories',
+        coursesPerCategory: 'Courses per category',
+        categoryDisplayControl: 'Course category display',
+        categoryDisplayControlDesc: 'Enable or disable each category on the Courses page. Changes apply instantly.',
+        categoryOrder: 'Category order',
+        moveUp: 'Move up',
+        moveDown: 'Move down',
     },
     ar: {
         // Navbar
@@ -560,6 +576,22 @@ const translations = {
         realMarketKnowledgeDesc: 'مهارات عملية مدعومة بتجربة السوق المباشرة.',
         videoUnavailable: 'الفيديو غير متاح',
         watchOnYouTube: 'شاهد على يوتيوب',
+
+        // Course categories (Arabic)
+        categoryTradingPlatform: 'منصة التداول',
+        categoryNewsCourses: 'دورات الأخبار',
+        courseCategory: 'فئة الدورة',
+        courseCategoryRequired: 'يرجى اختيار فئة الدورة.',
+        courseLevelNewsOnly: 'المستويات (مبتدئ / متوسط / احترافي) لمنصة التداول فقط. دورات الأخبار لا تحتوي على مستوى.',
+        noCoursesInCategory: 'لا توجد دورات في هذه الفئة بعد.',
+        filterByCategory: 'تصفية حسب الفئة',
+        allCategories: 'جميع الفئات',
+        coursesPerCategory: 'الدورات حسب الفئة',
+        categoryDisplayControl: 'عرض فئات الدورات',
+        categoryDisplayControlDesc: 'تفعيل أو إخفاء كل فئة في صفحة الدورات. التغييرات فورية.',
+        categoryOrder: 'ترتيب الفئات',
+        moveUp: 'تحريك لأعلى',
+        moveDown: 'تحريك لأسفل',
     }
 };
 

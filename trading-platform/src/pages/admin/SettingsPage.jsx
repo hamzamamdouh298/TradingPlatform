@@ -5,13 +5,15 @@ import { useSiteSettings } from '../../context/SiteSettingsContext';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Settings, Shield, Save, Video } from 'lucide-react';
+import { Settings, Shield, Save, Video, BookOpen, ChevronUp, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useCourseCategories } from '../../context/CourseCategoriesContext';
 
 export const SettingsPage = () => {
     const { theme, toggleTheme } = useTheme();
     const { t, language, toggleLanguage } = useLanguage();
     const { heroVideoUrl, setHeroVideoUrl } = useSiteSettings();
+    const { getAllCategoriesForAdmin, setCategoryEnabled, moveCategory } = useCourseCategories();
 
     const [platformName, setPlatformName] = useState('KMT Trade');
     const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -105,6 +107,58 @@ export const SettingsPage = () => {
                             >
                                 {t('save')} {t('homepageVideoUrl')}
                             </Button>
+                        </div>
+                    </section>
+
+                    {/* Course category display control */}
+                    <section className="p-6 rounded-2xl border backdrop-blur-md" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: borderColor }}>
+                            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                                <BookOpen size={20} />
+                            </div>
+                            <h2 className="text-xl font-bold">{t('categoryDisplayControl')}</h2>
+                        </div>
+                        <p className="text-sm mb-6 opacity-70" style={{ color: theme === 'dark' ? '#9ca3af' : '#6b7280' }}>
+                            {t('categoryDisplayControlDesc')}
+                        </p>
+                        <div className="space-y-3">
+                            {getAllCategoriesForAdmin().map((cat, index) => (
+                                <div
+                                    key={cat.id}
+                                    className="flex items-center justify-between p-4 rounded-xl border"
+                                    style={{ borderColor: borderColor }}
+                                >
+                                    <span className="font-medium">{t(cat.labelKey)}</span>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => moveCategory(cat.id, -1)}
+                                            disabled={index === 0}
+                                            className="p-2 rounded-lg border opacity-80 hover:opacity-100 disabled:opacity-40 disabled:cursor-not-allowed"
+                                            style={{ borderColor: borderColor }}
+                                            title={t('moveUp')}
+                                        >
+                                            <ChevronUp size={18} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => moveCategory(cat.id, 1)}
+                                            disabled={index === getAllCategoriesForAdmin().length - 1}
+                                            className="p-2 rounded-lg border opacity-80 hover:opacity-100 disabled:opacity-40 disabled:cursor-not-allowed"
+                                            style={{ borderColor: borderColor }}
+                                            title={t('moveDown')}
+                                        >
+                                            <ChevronDown size={18} />
+                                        </button>
+                                        <div
+                                            onClick={() => setCategoryEnabled(cat.id, !cat.enabled)}
+                                            className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${cat.enabled ? 'bg-primary' : 'bg-gray-600'}`}
+                                        >
+                                            <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${cat.enabled ? 'translate-x-6' : 'translate-x-0'}`} />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </section>
 

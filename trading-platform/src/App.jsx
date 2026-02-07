@@ -21,14 +21,16 @@ import { UserNewsPage } from './pages/UserNewsPage';
 import { CoursesProvider } from './context/CoursesContext';
 import { NewsProvider } from './context/NewsContext';
 import { SiteSettingsProvider } from './context/SiteSettingsContext';
+import { CourseCategoriesProvider } from './context/CourseCategoriesContext';
 
 function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
         <SiteSettingsProvider>
-          <CoursesProvider>
-            <NewsProvider>
+          <CourseCategoriesProvider>
+            <CoursesProvider>
+              <NewsProvider>
             <Router>
               <AuthProvider>
                 <Routes>
@@ -111,8 +113,9 @@ function App() {
                 </Routes>
               </AuthProvider>
             </Router>
-            </NewsProvider>
-          </CoursesProvider>
+              </NewsProvider>
+            </CoursesProvider>
+          </CourseCategoriesProvider>
         </SiteSettingsProvider>
       </LanguageProvider>
     </ThemeProvider>

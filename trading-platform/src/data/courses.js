@@ -1,6 +1,7 @@
 export const COURSES = [
     {
         id: 1,
+        categoryId: 'tradingPlatform',
         title: 'Trading Fundamentals',
         description: 'Master the basics of stock and forex trading.',
         thumbnail: 'https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=1000&auto=format&fit=crop',
@@ -16,6 +17,7 @@ export const COURSES = [
     },
     {
         id: 2,
+        categoryId: 'tradingPlatform',
         title: 'Advanced Technical Analysis',
         description: 'Deep dive into chart patterns and indicators.',
         thumbnail: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1000&auto=format&fit=crop',
@@ -30,6 +32,7 @@ export const COURSES = [
     },
     {
         id: 3,
+        categoryId: 'newsCourses',
         title: 'Crypto Trading Mystery',
         description: 'Unlocking the secrets of the blockchain markets.',
         thumbnail: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=1000&auto=format&fit=crop',
