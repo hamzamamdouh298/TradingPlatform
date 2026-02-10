@@ -45,7 +45,16 @@ export const UploadCoursePage = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => {
+            // If admin selects Paid Courses category, force accessType to premium
+            if (name === 'courseCategory') {
+                if (value === 'paidCourses') {
+                    return { ...prev, courseCategory: value, accessType: 'premium' };
+                }
+                return { ...prev, courseCategory: value };
+            }
+            return { ...prev, [name]: value };
+        });
     };
 
     const handleDrag = (e) => {
@@ -119,6 +128,9 @@ export const UploadCoursePage = () => {
             setUploadProgress(0);
 
             // Create course object using context
+            const isPaidCourse = formData.courseCategory === 'paidCourses';
+            const effectiveLessonType = isPaidCourse ? 'premium' : formData.accessType;
+
             const newCourseData = {
                 title: formData.courseTitle,
                 description: formData.courseDescription,
@@ -130,7 +142,7 @@ export const UploadCoursePage = () => {
                     {
                         id: Date.now(),
                         title: formData.videoTitle || 'Lesson 1',
-                        type: formData.accessType,
+                        type: effectiveLessonType,
                         duration: formData.videoDuration || '10:00',
                         videoUrl: URL.createObjectURL(videoFile) // Mock URL for local preview
                     }
@@ -303,21 +315,35 @@ export const UploadCoursePage = () => {
                                 </div>
 
                                 {/* Access Type Toggle */}
-                                <div className="flex p-1 rounded-xl mb-6 bg-gray-500/10 border border-gray-500/20">
-                                    {['free', 'premium'].map((type) => (
-                                        <button
-                                            key={type}
-                                            type="button"
-                                            onClick={() => setFormData(prev => ({ ...prev, accessType: type }))}
-                                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${formData.accessType === type
-                                                ? 'bg-primary text-black shadow-lg'
-                                                : 'text-gray-500 hover:bg-white/5'
-                                                }`}
-                                        >
-                                            {type === 'free' ? <Unlock size={14} /> : <Lock size={14} />}
-                                            {t(type)}
-                                        </button>
-                                    ))}
+                                <div className="flex flex-col gap-2 mb-6">
+                                    <div className="flex p-1 rounded-xl bg-gray-500/10 border border-gray-500/20">
+                                        {['free', 'premium'].map((type) => {
+                                            const isPaidCategory = formData.courseCategory === 'paidCourses';
+                                            const isActive = formData.accessType === type || (isPaidCategory && type === 'premium');
+                                            const disabled = isPaidCategory;
+                                            return (
+                                                <button
+                                                    key={type}
+                                                    type="button"
+                                                    disabled={disabled}
+                                                    onClick={() => !disabled && setFormData(prev => ({ ...prev, accessType: type }))}
+                                                    className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${
+                                                        isActive
+                                                            ? 'bg-primary text-black shadow-lg'
+                                                            : 'text-gray-500 hover:bg-white/5'
+                                                    } ${disabled ? 'cursor-not-allowed opacity-70' : ''}`}
+                                                >
+                                                    {type === 'free' ? <Unlock size={14} /> : <Lock size={14} />}
+                                                    {t(type)}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    {formData.courseCategory === 'paidCourses' && (
+                                        <p className="text-xs" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>
+                                            All videos in <strong>Paid Courses</strong> are automatically premium for users.
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Course Category (mandatory) */}

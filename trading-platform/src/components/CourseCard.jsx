@@ -1,13 +1,19 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
-import { BarChart, Lock, CheckCircle, Award, TrendingUp } from 'lucide-react';
+import { BarChart, Lock, CheckCircle, Award, TrendingUp, Unlock } from 'lucide-react';
 
 export function CourseCard({ course, locked, progress, levelProgressHint, onStartOrContinue, theme, t, LEVELS }) {
     const isDark = theme === 'dark';
     const textSecondary = isDark ? '#9ca3af' : '#6b7280';
     const borderColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
     const cardBg = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.8)';
+    const hasPremiumLessons = Array.isArray(course.lessons)
+        ? course.lessons.some((l) => l.type === 'premium')
+        : false;
+    const hasFreeLessons = Array.isArray(course.lessons)
+        ? course.lessons.some((l) => l.type === 'free')
+        : false;
 
     return (
         <motion.div
@@ -64,9 +70,23 @@ export function CourseCard({ course, locked, progress, levelProgressHint, onStar
                         </span>
                     )}
                 </div>
-                <p className="text-sm mb-6 line-clamp-2" style={{ color: textSecondary }}>
+                <p className="text-sm mb-3 line-clamp-2" style={{ color: textSecondary }}>
                     {course.description}
                 </p>
+                <div className="flex flex-wrap gap-2 text-[11px] mb-4">
+                    {hasFreeLessons && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                            <Unlock size={10} />
+                            {t('freeVideos')}
+                        </span>
+                    )}
+                    {hasPremiumLessons && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                            <Lock size={10} />
+                            {t('premiumVideos')}
+                        </span>
+                    )}
+                </div>
                 <div className="mt-auto space-y-4">
                     <div
                         className="flex items-center justify-between text-sm border-t pt-4"

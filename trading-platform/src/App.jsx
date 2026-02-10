@@ -22,6 +22,7 @@ import { CoursesProvider } from './context/CoursesContext';
 import { NewsProvider } from './context/NewsContext';
 import { SiteSettingsProvider } from './context/SiteSettingsContext';
 import { CourseCategoriesProvider } from './context/CourseCategoriesContext';
+import { MarketProvider } from './context/MarketContext';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <CourseCategoriesProvider>
             <CoursesProvider>
               <NewsProvider>
+                <MarketProvider>
             <Router>
               <AuthProvider>
                 <Routes>
@@ -113,6 +115,7 @@ function App() {
                 </Routes>
               </AuthProvider>
             </Router>
+                </MarketProvider>
               </NewsProvider>
             </CoursesProvider>
           </CourseCategoriesProvider>

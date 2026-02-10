@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useSiteSettings } from '../context/SiteSettingsContext';
+import { useMarket } from '../context/MarketContext';
 import { Button } from '../components/Button';
 import { HeroVideo } from '../components/HeroVideo';
 import { Navbar } from '../components/Navbar';
@@ -20,6 +22,8 @@ import {
     Radio,
     Users,
     CheckCircle2,
+    ArrowUpRight,
+    ArrowDownRight,
 } from 'lucide-react';
 
 const container = {
@@ -46,6 +50,8 @@ export const LandingPage = () => {
     const navigate = useNavigate();
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const { heroTitle, heroDescription } = useSiteSettings();
+    const { enabled: marketEnabled, getVisibleAssets } = useMarket();
 
     const isDark = theme === 'dark';
     const bgColor = isDark ? '#050505' : '#f5f5f5';
@@ -111,7 +117,7 @@ export const LandingPage = () => {
                                     transition={{ delay: 0.25, duration: 0.5 }}
                                     className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white mb-4"
                                 >
-                                    {t('heroHeadline')}
+                                    {heroTitle || t('heroHeadline')}
                                 </motion.h1>
                                 <motion.p
                                     initial={{ opacity: 0, y: 12 }}
@@ -119,7 +125,7 @@ export const LandingPage = () => {
                                     transition={{ delay: 0.4, duration: 0.5 }}
                                     className="text-white/90 text-base sm:text-lg mb-8 max-w-xl leading-relaxed"
                                 >
-                                    {t('heroValueProp')}
+                                    {heroDescription || t('heroValueProp')}
                                 </motion.p>
                                 <motion.div
                                     initial={{ opacity: 0, y: 12 }}
@@ -145,7 +151,7 @@ export const LandingPage = () => {
                     </motion.div>
                 </section>
 
-                {/* ——— About the Platform ——— */}
+                {/* ——— Platform Overview ——— */}
                 <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-24 sm:mt-32">
                     <motion.h2 {...sectionMotion} className="text-3xl sm:text-4xl font-bold text-center mb-3">
                         {t('aboutPlatform')}
@@ -187,6 +193,90 @@ export const LandingPage = () => {
                         ))}
                     </motion.ul>
                 </section>
+
+                {/* ——— Market Prices ——— */}
+                {marketEnabled && (
+                    <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-16 sm:mt-24">
+                        <motion.h2 {...sectionMotion} className="text-2xl sm:text-3xl font-bold mb-3 text-center">
+                            Live Market Snapshot
+                        </motion.h2>
+                        <motion.p
+                            {...sectionMotion}
+                            className="text-center max-w-xl mx-auto mb-8 text-sm sm:text-base"
+                            style={{ color: textSecondary }}
+                        >
+                            Track key currencies, crypto, and indices in a clean, real‑time inspired strip.
+                        </motion.p>
+                        <motion.div
+                            variants={container}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: '-40px' }}
+                            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                        >
+                            {getVisibleAssets().map((asset, index) => {
+                                const isUp = asset.change >= 0;
+                                const ArrowIcon = isUp ? ArrowUpRight : ArrowDownRight;
+                                const accent = isUp ? '#22c55e' : '#f97316';
+                                const accentBg = isUp ? 'rgba(34,197,94,0.12)' : 'rgba(249,115,22,0.12)';
+                                return (
+                                    <motion.div
+                                        key={asset.id}
+                                        variants={item}
+                                        className="relative overflow-hidden rounded-2xl border p-4 sm:p-5 flex flex-col gap-2"
+                                        style={{
+                                            backgroundColor: cardBg,
+                                            borderColor,
+                                        }}
+                                    >
+                                        <div
+                                            className="absolute inset-x-0 -top-16 h-32 opacity-[0.06]"
+                                            style={{
+                                                background: `radial-gradient(circle at top, ${accent} 0, transparent 60%)`,
+                                            }}
+                                        />
+                                        <div className="relative flex items-center justify-between gap-3">
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide opacity-70">{asset.symbol}</p>
+                                                <h3 className="text-lg font-semibold">{asset.name}</h3>
+                                            </div>
+                                            <div
+                                                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium"
+                                                style={{ backgroundColor: accentBg, color: accent }}
+                                            >
+                                                <ArrowIcon size={14} />
+                                                <span>{asset.change > 0 ? '+' : ''}{asset.change.toFixed(2)}%</span>
+                                            </div>
+                                        </div>
+                                        <div className="relative mt-2 flex items-end justify-between gap-4">
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide opacity-60">Price</p>
+                                                <p className="text-xl font-bold">
+                                                    {asset.price.toLocaleString(undefined, {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    })}
+                                                </p>
+                                            </div>
+                                            <div className="flex-1 h-10 flex items-end justify-end gap-1 opacity-70">
+                                                {[0.2, 0.5, 0.8, 0.4, 0.9].map((h, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="w-1.5 rounded-t-full"
+                                                        style={{
+                                                            height: `${30 + h * 40}%`,
+                                                            background: `linear-gradient(to top, ${accent}, transparent)`,
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
+                        </motion.div>
+                    </section>
+                )}
 
                 {/* ——— Signals & Community ——— */}
                 <section className="px-4 sm:px-6 max-w-7xl mx-auto mt-24 sm:mt-32">

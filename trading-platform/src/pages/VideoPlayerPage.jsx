@@ -5,31 +5,58 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Navbar } from '../components/Navbar';
 import { Button } from '../components/Button';
-import { Lock, Play, CheckCircle, CheckCircle2 } from 'lucide-react';
+import { Lock, Play, CheckCircle, CheckCircle2, Unlock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCourses } from '../context/CoursesContext';
 import { COURSES } from '../data/courses';
 
 export const VideoPlayerPage = () => {
     const { courseId } = useParams();
     const { user, markVideoAsCompleted } = useAuth();
+    const { courses, loading } = useCourses();
     const { theme } = useTheme();
     const { t } = useLanguage();
     const navigate = useNavigate();
 
-    const course = COURSES.find(c => c.id === Number(courseId));
-    const [currentLesson, setCurrentLesson] = useState(course?.lessons[0]);
+    // Prefer live courses from context; fall back to static seed data
+    const allCourses = courses && courses.length > 0 ? courses : COURSES;
+    const course = allCourses.find(c => c.id === Number(courseId));
+    const [currentLesson, setCurrentLesson] = useState(null);
 
     const bgColor = theme === 'dark' ? '#050505' : '#f5f5f5';
     const textColor = theme === 'dark' ? '#ffffff' : '#1f2937';
     const textSecondary = theme === 'dark' ? '#9ca3af' : '#6b7280';
 
     useEffect(() => {
-        if (course && !currentLesson) {
-            setCurrentLesson(course.lessons[0]);
+        if (course && (!currentLesson || !course.lessons?.some(l => l.id === currentLesson.id))) {
+            setCurrentLesson(course.lessons?.[0]);
         }
     }, [course, currentLesson]);
 
-    if (!course) return <div>Course not found</div>;
+    if (loading && !course) {
+        return (
+            <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: bgColor, color: textColor }}>
+                <p>{t('loading') || 'Loading course...'}</p>
+            </div>
+        );
+    }
+
+    if (!course) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: bgColor, color: textColor }}>
+                <Navbar />
+                <main className="pt-24 px-4 md:px-8 max-w-3xl mx-auto text-center">
+                    <h1 className="text-2xl font-bold mb-2">Course not found</h1>
+                    <p className="mb-6" style={{ color: textSecondary }}>
+                        {t('noCoursesInCategory')}
+                    </p>
+                    <Button onClick={() => navigate('/courses')}>
+                        {t('viewCourses') || 'Back to Courses'}
+                    </Button>
+                </main>
+            </div>
+        );
+    }
 
     const isLocked = (lesson) => {
         if (lesson.type === 'free') return false;
@@ -194,7 +221,21 @@ export const VideoPlayerPage = () => {
                                             >
                                                 {lesson.title}
                                             </h4>
-                                            <p className="text-xs" style={{ color: textSecondary }}>{lesson.duration}</p>
+                                            <div className="flex items-center gap-2 mt-0.5">
+                                                <p className="text-xs" style={{ color: textSecondary }}>{lesson.duration}</p>
+                                                <span className="inline-flex items-center gap-1 px-2 py-px rounded-full text-[10px]"
+                                                    style={{
+                                                        backgroundColor: lesson.type === 'free'
+                                                            ? 'rgba(16, 185, 129, 0.12)'
+                                                            : 'rgba(245, 158, 11, 0.12)',
+                                                        color: lesson.type === 'free' ? '#6ee7b7' : '#fbbf24',
+                                                        border: `1px solid ${lesson.type === 'free' ? 'rgba(16,185,129,0.4)' : 'rgba(245,158,11,0.4)'}`
+                                                    }}
+                                                >
+                                                    {lesson.type === 'free' ? <Unlock size={10} /> : <Lock size={10} />}
+                                                    {lesson.type === 'free' ? t('free') : t('premium')}
+                                                </span>
+                                            </div>
                                         </div>
 
                                         {!locked ? (

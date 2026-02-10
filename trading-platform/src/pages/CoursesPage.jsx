@@ -6,11 +6,11 @@ import { useLanguage } from '../context/LanguageContext';
 import { useCourseCategories } from '../context/CourseCategoriesContext';
 import { Navbar } from '../components/Navbar';
 import { CourseCard } from '../components/CourseCard';
-import { Shield, BarChart2, Newspaper, BookOpen } from 'lucide-react';
+import { Shield, BarChart2, Newspaper, BookOpen, CreditCard, Target } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCourses } from '../context/CoursesContext';
 
-const CATEGORY_ICONS = { BarChart2, Newspaper };
+const CATEGORY_ICONS = { BarChart2, Newspaper, CreditCard, Target };
 
 export const CoursesPage = () => {
     const navigate = useNavigate();
@@ -52,6 +52,10 @@ export const CoursesPage = () => {
     const isCourseLocked = (course) => {
         if (user?.role === 'admin') return false;
         if (course.categoryId === 'newsCourses') return false;
+        // Paid Courses: lock by premium subscription, not by level
+        if (course.categoryId === 'paidCourses') {
+            return !user?.isPremium;
+        }
         const courseLevelIndex = LEVELS.indexOf(course.level);
         return courseLevelIndex > userLevelIndex;
     };
@@ -139,45 +143,47 @@ export const CoursesPage = () => {
 
                 {/* Segmented control: category tabs */}
                 <div className="mb-10">
-                    <div
-                        className="inline-flex p-1 rounded-xl border gap-0"
-                        style={{
-                            backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-                            borderColor: borderColor,
-                        }}
-                    >
-                        {categories.map((cat) => {
-                            const Icon = CATEGORY_ICONS[cat.icon] || BookOpen;
-                            const isActive = activeCategoryId === cat.id;
-                            return (
-                                <button
-                                    key={cat.id}
-                                    type="button"
-                                    onClick={() => setActiveCategoryId(cat.id)}
-                                    className="relative flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300"
-                                    style={{
-                                        color: isActive ? (isDark ? '#fff' : '#1f2937') : textSecondary,
-                                        opacity: isActive ? 1 : 0.7,
-                                    }}
-                                >
-                                    {isActive && (
-                                        <motion.span
-                                            layoutId="courseCategoryTab"
-                                            className="absolute inset-0 rounded-lg"
-                                            style={{
-                                                backgroundColor: isDark ? 'rgba(0, 229, 255, 0.15)' : 'rgba(0, 229, 255, 0.12)',
-                                                border: `1px solid ${isDark ? 'rgba(0, 229, 255, 0.3)' : 'rgba(0, 229, 255, 0.4)'}`,
-                                            }}
-                                            transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-                                        />
-                                    )}
-                                    <span className="relative z-10 flex items-center gap-2">
-                                        <Icon size={18} className={isActive ? 'text-primary' : ''} />
-                                        {t(cat.labelKey)}
-                                    </span>
-                                </button>
-                            );
-                        })}
+                    <div className="flex justify-center">
+                        <div
+                            className="inline-flex p-1 rounded-xl border gap-0"
+                            style={{
+                                backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                                borderColor: borderColor,
+                            }}
+                        >
+                            {categories.map((cat) => {
+                                const Icon = CATEGORY_ICONS[cat.icon] || BookOpen;
+                                const isActive = activeCategoryId === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => setActiveCategoryId(cat.id)}
+                                        className="relative flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300"
+                                        style={{
+                                            color: isActive ? (isDark ? '#fff' : '#1f2937') : textSecondary,
+                                            opacity: isActive ? 1 : 0.7,
+                                        }}
+                                    >
+                                        {isActive && (
+                                            <motion.span
+                                                layoutId="courseCategoryTab"
+                                                className="absolute inset-0 rounded-lg"
+                                                style={{
+                                                    backgroundColor: isDark ? 'rgba(0, 229, 255, 0.15)' : 'rgba(0, 229, 255, 0.12)',
+                                                    border: `1px solid ${isDark ? 'rgba(0, 229, 255, 0.3)' : 'rgba(0, 229, 255, 0.4)'}`,
+                                                }}
+                                                transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                                            />
+                                        )}
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            <Icon size={18} className={isActive ? 'text-primary' : ''} />
+                                            {t(cat.labelKey)}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
 

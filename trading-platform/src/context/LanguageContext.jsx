@@ -41,8 +41,8 @@ const translations = {
         certifiedMentors: 'Certified Mentors',
 
         // Courses Page
-        tradingCourses: 'Trading Courses',
-        courseDescription: 'Explore our comprehensive curriculum designed for all skill levels.',
+        tradingCourses: 'Courses & Learning Paths',
+        courseDescription: 'Browse Trading Platform, News Courses, Paid Programs, and Praxis & Training — all organized in one place.',
         lessons: 'Lessons',
         waitlist: 'Waitlist',
         startCourse: 'Start Course',
@@ -284,6 +284,8 @@ const translations = {
         // Course categories
         categoryTradingPlatform: 'Trading Platform',
         categoryNewsCourses: 'News Courses',
+        categoryPaidCourses: 'Paid Courses',
+        categoryPraxis: 'Praxis & Training',
         courseCategory: 'Course Category',
         courseCategoryRequired: 'Please select a course category.',
         courseLevelNewsOnly: 'Levels (Beginner / Intermediate / Professional) apply to Trading Platform only. News Courses have no level.',
@@ -298,17 +300,17 @@ const translations = {
         moveDown: 'Move down',
 
         // Homepage redesign — Hero
-        heroHeadline: 'Professional Trading Education That Works',
-        heroValueProp: 'Structured learning from beginner to professional. Real market analysis, live signals, and a supportive community—all in one place.',
+        heroHeadline: 'All‑in‑One Trading Education Platform',
+        heroValueProp: 'From Trading Platform basics to News Courses, Paid Programs, and Praxis & Training — everything is organized for serious traders who want clarity and results.',
         joinCourses: 'Join Courses',
         contactSupport: 'Contact Support',
 
         // About the Platform
-        aboutPlatform: 'About the Platform',
-        aboutPlatformLead: 'Learn with a system built for serious traders.',
+        aboutPlatform: 'Learn in Four Smart Sections',
+        aboutPlatformLead: 'Trading Platform • News Courses • Paid Courses • Praxis & Training — a clear system that matches how real traders learn.',
         aboutPoint1: 'Professional trading education designed by experienced analysts.',
-        aboutPoint2: 'Structured learning path from beginner to professional level.',
-        aboutPoint3: 'Real market experience, live analysis, and practical strategies.',
+        aboutPoint2: 'Structured learning path with free and paid content for every stage.',
+        aboutPoint3: 'Praxis & Training focused on real market cases, not just theory.',
 
         // Signals & Community
         signalsAndCommunity: 'Signals & Community',
@@ -377,8 +379,8 @@ const translations = {
         certifiedMentors: 'مرشدون معتمدون',
 
         // Courses Page
-        tradingCourses: 'دورات التداول',
-        courseDescription: 'استكشف منهجنا الشامل المصمم لجميع المستويات.',
+        tradingCourses: 'الدورات ومسارات التعلم',
+        courseDescription: 'استعرض منصة التداول، دورات الأخبار، البرامج المدفوعة، وبراكسيس والتدريب — كلها منظمة في مكان واحد.',
         lessons: 'دروس',
         waitlist: 'قائمة الانتظار',
         startCourse: 'ابدأ الدورة',
@@ -619,6 +621,8 @@ const translations = {
         // Course categories (Arabic)
         categoryTradingPlatform: 'منصة التداول',
         categoryNewsCourses: 'دورات الأخبار',
+        categoryPaidCourses: 'دورات مدفوعة',
+        categoryPraxis: 'براكسيس وتدريب',
         courseCategory: 'فئة الدورة',
         courseCategoryRequired: 'يرجى اختيار فئة الدورة.',
         courseLevelNewsOnly: 'المستويات (مبتدئ / متوسط / احترافي) لمنصة التداول فقط. دورات الأخبار لا تحتوي على مستوى.',
@@ -633,17 +637,17 @@ const translations = {
         moveDown: 'تحريك لأسفل',
 
         // Homepage redesign — Hero (Arabic)
-        heroHeadline: 'تعليم تداول احترافي يحقق النتائج',
-        heroValueProp: 'تعلم منظم من المبتدئ إلى المحترف. تحليل السوق الفعلي وإشارات مباشرة ومجتمع داعم—كل ذلك في مكان واحد.',
+        heroHeadline: 'منصة تعليم تداول متكاملة',
+        heroValueProp: 'من أساسيات منصة التداول إلى دورات الأخبار والبرامج المدفوعة وبراكسيس والتدريب — كل شيء منظم لمتداولين جادين يبحثون عن وضوح ونتائج.',
         joinCourses: 'انضم للدورات',
         contactSupport: 'تواصل مع الدعم',
 
         // About the Platform (Arabic)
-        aboutPlatform: 'عن المنصة',
-        aboutPlatformLead: 'تعلم بنظام مصمم للمتداولين الجادين.',
+        aboutPlatform: 'تعلم عبر أربع مسارات رئيسية',
+        aboutPlatformLead: 'منصة التداول • دورات الأخبار • الدورات المدفوعة • براكسيس والتدريب — نظام واضح يناسب طريقة تعلم المتداول الحقيقي.',
         aboutPoint1: 'تعليم تداول احترافي من محللين ذوي خبرة.',
-        aboutPoint2: 'مسار تعلم منظم من المستوى المبتدئ إلى الاحترافي.',
-        aboutPoint3: 'تجربة سوق حقيقية وتحليل مباشر واستراتيجيات عملية.',
+        aboutPoint2: 'مسار تعلم منظم يجمع بين محتوى مجاني ومدفوع لكل مرحلة.',
+        aboutPoint3: 'قسم براكسيس وتدريب يركز على حالات حقيقية من السوق وليس النظري فقط.',
 
         // Signals & Community (Arabic)
         signalsAndCommunity: 'الإشارات والمجتمع',

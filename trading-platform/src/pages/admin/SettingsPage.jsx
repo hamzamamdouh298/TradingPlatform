@@ -5,24 +5,34 @@ import { useSiteSettings } from '../../context/SiteSettingsContext';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Settings, Shield, Save, Video, BookOpen, ChevronUp, ChevronDown } from 'lucide-react';
+import { Settings, Shield, Save, Video, BookOpen, ChevronUp, ChevronDown, LineChart, Eye, EyeOff, Trash2, Plus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useCourseCategories } from '../../context/CourseCategoriesContext';
+import { useMarket } from '../../context/MarketContext';
 
 export const SettingsPage = () => {
     const { theme, toggleTheme } = useTheme();
     const { t, language, toggleLanguage } = useLanguage();
-    const { heroVideoUrl, setHeroVideoUrl } = useSiteSettings();
+    const { heroVideoUrl, setHeroVideoUrl, heroTitle, heroDescription, setHeroTitle, setHeroDescription } = useSiteSettings();
     const { getAllCategoriesForAdmin, setCategoryEnabled, moveCategory } = useCourseCategories();
 
     const [platformName, setPlatformName] = useState('KMT Trade');
     const [maintenanceMode, setMaintenanceMode] = useState(false);
     const [allowSignups, setAllowSignups] = useState(true);
     const [homepageVideoUrl, setHomepageVideoUrl] = useState(heroVideoUrl);
+    const [heroTitleInput, setHeroTitleInput] = useState(heroTitle);
+    const [heroDescInput, setHeroDescInput] = useState(heroDescription);
+
+    const { assets, enabled, setSectionEnabled, updateAsset, addAsset, removeAsset } = useMarket();
 
     useEffect(() => {
         setHomepageVideoUrl(heroVideoUrl);
     }, [heroVideoUrl]);
+
+    useEffect(() => {
+        setHeroTitleInput(heroTitle);
+        setHeroDescInput(heroDescription);
+    }, [heroTitle, heroDescription]);
 
     const bgColor = theme === 'dark' ? '#050505' : '#f5f5f5';
     const textColor = theme === 'dark' ? '#ffffff' : '#1f2937';
@@ -81,7 +91,7 @@ export const SettingsPage = () => {
                         </div>
                     </section>
 
-                    {/* Homepage Video */}
+                    {/* Homepage Video + Hero Text */}
                     <section className="p-6 rounded-2xl border backdrop-blur-md" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
                         <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: borderColor }}>
                             <div className="p-2 rounded-lg bg-primary/10 text-primary">
@@ -98,16 +108,125 @@ export const SettingsPage = () => {
                                 />
                                 <p className="text-xs mt-2 opacity-50">{t('homepageVideoDesc')}</p>
                             </div>
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <Input
+                                    label="Hero Title"
+                                    value={heroTitleInput}
+                                    onChange={(e) => setHeroTitleInput(e.target.value)}
+                                />
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium ml-1" style={{ color: theme === 'dark' ? '#9ca3af' : '#4b5563' }}>
+                                        Hero Description
+                                    </label>
+                                    <textarea
+                                        value={heroDescInput}
+                                        onChange={(e) => setHeroDescInput(e.target.value)}
+                                        rows={3}
+                                        className="w-full rounded-xl px-4 py-3 outline-none transition-all duration-300 border-2 resize-none"
+                                        style={{
+                                            backgroundColor: theme === 'dark' ? '#1A1A1A' : '#ffffff',
+                                            borderColor: theme === 'dark' ? '#333' : '#e5e7eb',
+                                            color: textColor,
+                                        }}
+                                    />
+                                </div>
+                            </div>
                             <Button
                                 size="sm"
                                 variant="outline"
                                 onClick={() => {
                                     setHeroVideoUrl(homepageVideoUrl);
+                                    setHeroTitle(heroTitleInput);
+                                    setHeroDescription(heroDescInput);
                                 }}
                             >
-                                {t('save')} {t('homepageVideoUrl')}
+                                {t('saveChanges')}
                             </Button>
                         </div>
+                    </section>
+
+                    {/* Market Prices Section */}
+                    <section className="p-6 rounded-2xl border backdrop-blur-md" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: borderColor }}>
+                            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                                <LineChart size={20} />
+                            </div>
+                            <h2 className="text-xl font-bold">Homepage Market Prices</h2>
+                        </div>
+
+                        <div className="flex items-center justify-between mb-4">
+                            <p className="text-sm opacity-70" style={{ color: theme === 'dark' ? '#9ca3af' : '#6b7280' }}>
+                                Control which currencies/assets appear on the homepage market strip.
+                            </p>
+                            <div
+                                onClick={() => setSectionEnabled(!enabled)}
+                                className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${enabled ? 'bg-primary' : 'bg-gray-600'}`}
+                            >
+                                <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${enabled ? 'translate-x-6' : 'translate-x-0'}`} />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {assets.map((asset) => (
+                                <div
+                                    key={asset.id}
+                                    className="grid grid-cols-[1.5fr,1fr,1fr,auto] gap-3 items-center p-3 rounded-xl border"
+                                    style={{ borderColor: borderColor, opacity: asset.visible ? 1 : 0.7 }}
+                                >
+                                    <Input
+                                        label="Name"
+                                        value={asset.name}
+                                        onChange={(e) => updateAsset(asset.id, { name: e.target.value })}
+                                    />
+                                    <Input
+                                        label="Symbol"
+                                        value={asset.symbol}
+                                        onChange={(e) => updateAsset(asset.id, { symbol: e.target.value })}
+                                    />
+                                    <Input
+                                        label="Price"
+                                        type="number"
+                                        value={asset.price}
+                                        onChange={(e) => updateAsset(asset.id, { price: parseFloat(e.target.value) || 0 })}
+                                    />
+                                    <div className="flex items-center gap-2 justify-end">
+                                        <Input
+                                            label="%"
+                                            type="number"
+                                            value={asset.change}
+                                            onChange={(e) => updateAsset(asset.id, { change: parseFloat(e.target.value) || 0 })}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => updateAsset(asset.id, { visible: !asset.visible })}
+                                            className="p-2 rounded-lg border"
+                                            style={{ borderColor: borderColor }}
+                                            title={asset.visible ? 'Hide' : 'Show'}
+                                        >
+                                            {asset.visible ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeAsset(asset.id)}
+                                            className="p-2 rounded-lg border text-red-500"
+                                            style={{ borderColor: borderColor }}
+                                            title="Remove asset"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            className="mt-4 flex items-center gap-2"
+                            onClick={addAsset}
+                        >
+                            <Plus size={16} /> Add Asset
+                        </Button>
                     </section>
 
                     {/* Course category display control */}
@@ -202,7 +321,11 @@ export const SettingsPage = () => {
                     </section>
 
                     <div className="flex justify-end pt-4">
-                        <Button className="flex items-center gap-2 px-8" onClick={() => setHeroVideoUrl(homepageVideoUrl)}>
+                        <Button className="flex items-center gap-2 px-8" onClick={() => {
+                            setHeroVideoUrl(homepageVideoUrl);
+                            setHeroTitle(heroTitleInput);
+                            setHeroDescription(heroDescInput);
+                        }}>
                             <Save size={18} /> {t('saveChanges')}
                         </Button>
                     </div>
