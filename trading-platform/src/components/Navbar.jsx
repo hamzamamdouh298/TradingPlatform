@@ -7,6 +7,8 @@ import {
     LogOut,
     User,
     BarChart2,
+    TrendingUp,
+    LayoutDashboard,
     Shield,
     PlayCircle,
     Sun,
@@ -164,7 +166,7 @@ export const Navbar = () => {
                                     <div className="flex items-center gap-2">
                                         <AdminNavItem
                                             to="/admin"
-                                            icon={BarChart2}
+                                            icon={LayoutDashboard}
                                             label={t('adminDashboard')}
                                             active={isActive('/admin')}
                                             theme={theme}
@@ -191,6 +193,13 @@ export const Navbar = () => {
                                             theme={theme}
                                         />
                                         <AdminNavItem
+                                            to="/stock"
+                                            icon={TrendingUp}
+                                            label={t('stock')}
+                                            active={isActive('/stock')}
+                                            theme={theme}
+                                        />
+                                        <AdminNavItem
                                             to="/admin/upload-course"
                                             icon={UploadCloud}
                                             label={t('uploadCourse')}
@@ -209,6 +218,9 @@ export const Navbar = () => {
                                     <>
                                         <Link to="/courses" className={`hover:text-primary transition-colors flex items-center gap-2 h-12 px-4 rounded-xl ${isActive('/courses') ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}>
                                             <PlayCircle size={18} /> {t('courses')}
+                                        </Link>
+                                        <Link to="/stock" className={`hover:text-primary transition-colors flex items-center gap-2 h-12 px-4 rounded-xl ${isActive('/stock') ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}>
+                                            <TrendingUp size={18} /> {t('stock')}
                                         </Link>
                                         <Link to="/news" className={`hover:text-primary transition-colors flex items-center gap-2 h-12 px-4 rounded-xl ${isActive('/news') ? 'bg-primary/10 text-primary border border-primary/20' : ''}`}>
                                             <Newspaper size={18} /> {t('news')}
